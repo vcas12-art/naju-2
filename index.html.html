@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나주학생독립운동 탐방 퀴즈 - 문제 및 정답표</title>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+        :root {
+            --primary-low: #e67e22;
+            --primary-high: #c0392b;
+            --bg: #f8f9fa;
+            --text-color: #2c3e50;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Pretendard', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-color);
+            padding: 30px 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border: 1px solid #e9ecef;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #f1f3f5;
+            padding-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: #1a252f;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #6c757d;
+            font-size: 1rem;
+        }
+
+        .tab-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: #e9ecef;
+            color: #495057;
+        }
+
+        .tab-btn.active-low {
+            background-color: var(--primary-low);
+            color: white;
+            box-shadow: 0 4px 10px rgba(230, 126, 34, 0.3);
+        }
+
+        .tab-btn.active-high {
+            background-color: var(--primary-high);
+            color: white;
+            box-shadow: 0 4px 10px rgba(192, 57, 43, 0.3);
+        }
+
+        .quiz-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .quiz-item {
+            background: #fdfbf7;
+            border: 1px solid #f0e6d2;
+            border-radius: 12px;
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-question {
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.6;
+            color: #343a40;
+        }
+
+        .quiz-question .q-num {
+            color: #e67e22;
+            font-weight: 800;
+            margin-right: 6px;
+        }
+
+        .high-num { color: #c0392b !important; }
+
+        .blank {
+            color: #d35400;
+            font-weight: 800;
+            border-bottom: 2px solid #d35400;
+            padding: 0 4px;
+        }
+
+        .answer-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin-top: 5px;
+        }
+
+        .answer-text {
+            font-weight: bold;
+            color: #27ae60;
+            font-size: 1rem;
+        }
+
+        .toggle-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .hidden-ans {
+            display: none;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🏛️ 나주학생독립운동 탐방 퀴즈 문제집</h1>
+        <p>저학년용 / 고학년용 문제 및 정답 정답표</p>
+    </div>
+
+    <!-- 탭 버튼 -->
+    <div class="tab-group">
+        <button class="tab-btn active-low" id="btn-low" onclick="showGrade('low')">🌱 저학년용 (1~2학년 / 14문항)</button>
+        <button class="tab-btn" id="btn-high" onclick="showGrade('high')">🔥 고학년용 (3~6학년 / 20문항)</button>
+    </div>
+
+    <!-- 저학년 문제 리스트 -->
+    <div id="list-low" class="quiz-list"></div>
+
+    <!-- 고학년 문제 리스트 -->
+    <div id="list-high" class="quiz-list hidden"></div>
+</div>
+
+<script>
+    const lowData = [
+        { q: "우리나라를 상징하는 국기의 이름은 [ <span class='blank'>?</span> ]입니다.", a: ["태극기"] },
+        { q: "나주 학생들이 독립 운동을 위해 싸운 대상은 [ <span class='blank'>?</span> ]입니다.", a: ["일본", "일제"] },
+        { q: "학생들이 학교에 가기 위해 탔던 탈것은 [ <span class='blank'>?</span> ]입니다.", a: ["기차", "열차", "통학열차"] },
+        { q: "학생들이 일본에 맞서 만세를 부르며 일어난 장소는 [ <span class='blank'>?</span> ]역입니다.", a: ["나주", "나주역"] },
+        { q: "일본 학생들이 한국 여학생을 놀려서 싸움이 일어난 운동은 [ <span class='blank'>?</span> ]운동입니다.", a: ["학생독립운동", "학생운동"] },
+        { q: "나라의 독립을 위해 용감하게 싸운 사람들을 [ <span class='blank'>?</span> ]운동가라고 합니다.", a: ["독립", "독립운동가"] },
+        { q: "여학생을 희롱하는 일본 학생을 혼내준 남학생의 이름은 박준[ <span class='blank'>?</span> ]입니다.", a: ["채", "박준채"] },
+        { q: "1929년 11월 3일에 일어난 운동을 [ <span class='blank'>?</span> ]학생독립운동이라고 합니다.", a: ["광주", "나주"] },
+        { q: "빼앗긴 나라를 되찾기 위해 만세를 부르던 마음을 [ <span class='blank'>?</span> ] 정신이라고 합니다.", a: ["독립", "항일"] },
+        { q: "일본인 학생들의 나쁜 행동에 화가 난 한국 학생들이 다툰 장소는 [ <span class='blank'>?</span> ] 안이었습니다.", a: ["기차", "열차", "통학열차"] },
+        { q: "시험을 거부하며 나라를 위해 싸운 일을 백지[ <span class='blank'>?</span> ]이라고 합니다.", a: ["동맹"] },
+        { q: "옛 나주역 옆에 당시 역사를 기억하기 위해 세운 곳은 나주학생독립[ <span class='blank'>?</span> ]입니다.", a: ["기념관"] },
+        { q: "우리가 살고 있는 소중한 우리 나라의 이름은 [ <span class='blank'>?</span> ]입니다.", a: ["대한민국", "한국"] },
+        { q: "나주 학생들의 용기 있는 정신은 지금도 우리 가슴속에 남아 있습니다. 우리는 누구일까요? 바로 [ <span class='blank'>?</span> ]입니다.", a: ["학생", "어린이"] }
+    ];
+
+    const highData = [
+        { q: "옛 나주역 옆에 역사 현장을 기억하기 위해 개관한 시설은 [ <span class='blank'>?</span> ]이다.", a: ["나주학생독립기념관"] },
+        { q: "1895년 전국 항일의병의 단초가 된 고종의 명령은 [ <span class='blank'>?</span> ]이다.", a: ["단발령"] },
+        { q: "1905년 일제가 대한제국의 외교권을 강제로 빼앗기 위해 체결한 조약은 [ <span class='blank'>?</span> ]이다.", a: ["을사조약", "을사늑약"] },
+        { q: "1910년대 일제가 헌병 경찰을 앞세워 압제하던 통치 방식은 [ <span class='blank'>?</span> ]이다.", a: ["무단통치", "무단"] },
+        { q: "1920년대 3·1 운동 이후 일제가 우리 민족을 분열시키기 위해 내세운 기만적 통치는 [ <span class='blank'>?</span> ]이다.", a: ["문화정치", "문화"] },
+        { q: "나주 학생독립운동 당시 민족 협동 전선으로 나주지회가 결성된 대표적 항일단체는 [ <span class='blank'>?</span> ]이다.", a: ["신간회"] },
+        { q: "1929년 10월 30일, 한·일 학생 간 충돌의 직접적 발단이 된 장소는 [ <span class='blank'>?</span> ] 내부였다.", a: ["통학열차", "열차", "기차"] },
+        { q: "일제가 나주평야의 토지와 쌀을 수탈하기 위해 설립한 대표적 수탈 기관은 [ <span class='blank'>?</span> ]이다.", a: ["동양척식주식회사", "동척"] },
+        { q: "나주청년회를 이끌며 나주 지역 소년운동과 항일 운동을 주도한 인물은 [ <span class='blank'>?</span> ]이다.", a: ["박준삼"] },
+        { q: "일제의 상권 독점에 맞서 나주 읍내 상인들과 주민들이 자본을 모아 창설한 조직은 [ <span class='blank'>?</span> ]이다.", a: ["나주협동상회", "협동상회"] },
+        { q: "나주역 충돌 사건을 목격하고 당시 상황을 증언한 광주여고보 학생은 [ <span class='blank'>?</span> ]이다.", a: ["이광춘"] },
+        { q: "통근열차에서 일본인 중학생들에게 희롱을 당했던 한국인 여학생은 [ <span class='blank'>?</span> ]이다.", a: ["박기옥"] },
+        { q: "여학생 희롱에 격분하여 일본인 학생 겐쿠라와 맞서 싸운 박기옥의 사촌 남동생은 [ <span class='blank'>?</span> ]이다.", a: ["박준채"] },
+        { q: "1918년 무오년에 선포된 우리나라 최초의 독자적 독립선언서는 [ <span class='blank'>?</span> ]이다.", a: ["대한독립선언서", "무오독립선언서"] },
+        { q: "1930년 1월 일제의 식민지 교육에 항거하여 학생들이 백지로 시험지를 제출한 사건은 [ <span class='blank'>?</span> ]이다.", a: ["백지동맹"] },
+        { q: "백지동맹 주동자로 지목되어 퇴학 처분을 받은 광주고보 학생은 [ <span class='blank'>?</span> ]이다.", a: ["이기홍"] },
+        { q: "나주실업보습학교 학생 시위를 주도하다 체포되어 옥고를 치른 청년부장은 [ <span class='blank'>?</span> ]이다.", a: ["박동희"] },
+        { q: "나주 학생들의 항일 정신은 해방 후 1960년 불의한 정권에 맞선 [ <span class='blank'>?</span> ] 의거로 계승되었다.", a: ["4.19", "4.19의거", "419"] },
+        { q: "나주 학생들의 민주·독립 정신은 1980년 신군부에 맞선 [ <span class='blank'>?</span> ] 민주화운동으로 이어졌다.", a: ["5.18", "5.18민주화운동", "518"] },
+        { q: "학생들의 의로운 투쟁 정신은 1987년 민주주의를 이끌어낸 [ <span class='blank'>?</span> ] 항쟁으로 결실을 맺었다.", a: ["6월", "6월항쟁", "6월민주항쟁"] }
+    ];
+
+    function renderList(data, targetId, isHigh = false) {
+        const container = document.getElementById(targetId);
+        container.innerHTML = "";
+
+        data.forEach((item, index) => {
+            const numClass = isHigh ? "q-num high-num" : "q-num";
+            const ansList = item.a.join(", ");
+            
+            const html = `
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <span class="${numClass}">Q${index + 1}.</span> ${item.q}
+                    </div>
+                    <div class="answer-box">
+                        <span>정답: <span id="ans-${targetId}-${index}" class="answer-text hidden-ans">${ansList}</span></span>
+                        <button class="toggle-btn" onclick="toggleAnswer('ans-${targetId}-${index}', this)">정답 보기</button>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += html;
+        });
+    }
+
+    function toggleAnswer(ansId, btn) {
+        const ansElem = document.getElementById(ansId);
+        if (ansElem.classList.contains('hidden-ans')) {
+            ansElem.classList.remove('hidden-ans');
+            btn.innerText = "정답 숨기기";
+            btn.style.background = "#e74c3c";
+        } else {
+            ansElem.classList.add('hidden-ans');
+            btn.innerText = "정답 보기";
+            btn.style.background = "#6c757d";
+        }
+    }
+
+    function showGrade(grade) {
+        const btnLow = document.getElementById('btn-low');
+        const btnHigh = document.getElementById('btn-high');
+        const listLow = document.getElementById('list-low');
+        const listHigh = document.getElementById('list-high');
+
+        if (grade === 'low') {
+            btnLow.className = "tab-btn active-low";
+            btnHigh.className = "tab-btn";
+            listLow.classList.remove('hidden');
+            listHigh.classList.add('hidden');
+        } else {
+            btnLow.className = "tab-btn";
+            btnHigh.className = "tab-btn active-high";
+            listLow.classList.add('hidden');
+            listHigh.classList.remove('hidden');
+        }
+    }
+
+    // 초기 실행
+    renderList(lowData, "list-low", false);
+    renderList(highData, "list-high", true);
+</script>
+</body>
+</html>
